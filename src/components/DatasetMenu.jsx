@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 
 import DatasetList from './DatasetList.jsx'
+import DatasetModal from './DatasetModal.jsx'
 
 class DatasetMenu extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      isOpen: true,
+      isSidebarOpen: true,
+      isModalOpen: false,
       datasetList: [1,2,3],
       currentDataset: '',
       newDataset: '',
@@ -17,11 +19,19 @@ class DatasetMenu extends Component {
   }
 
   closeSidebar = () => {
-    this.setState({ isOpen : false });
+    this.setState({ isSidebarOpen : false });
   }
 
   openSidebar = () => {
-    this.setState({ isOpen : true });
+    this.setState({ isSidebarOpen : true });
+  }
+
+  closeDatasetModal = () => {
+    this.setState({ isModalOpen : false });
+  }
+
+  openDatasetModal = () => {
+    this.setState({ isModalOpen : true });
   }
 
   setDatasetList = () => {
@@ -51,7 +61,7 @@ class DatasetMenu extends Component {
 
   render() {
     var sideBarStyles = {
-      display: this.state.isOpen ? "block" : "none"
+      display: this.state.isSidebarOpen ? "block" : "none"
     }
 
     var containerStyles = {
@@ -73,7 +83,7 @@ class DatasetMenu extends Component {
              style={ containerStyles } >
           <div className="w3-display-bottomright w3-margin-right">
             <button className="w3-button w3-black"
-                    onClick={ this.onAddButtonClick }>+</button>
+                    onClick={ this.openDatasetModal }>+</button>
           </div>
         </div>
 
@@ -84,6 +94,9 @@ class DatasetMenu extends Component {
                   onClick={ this.openSidebar }>&#9776;
           </button>
         </div>
+
+        <DatasetModal isOpen={ this.state.isModalOpen }
+                      closeModal={ this.closeDatasetModal } />
 
       </div>
     );

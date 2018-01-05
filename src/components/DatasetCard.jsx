@@ -9,12 +9,17 @@ class DatasetCard extends Component {
   render() {
 
     var cardStyles = {
+      minHeight: "50px"
     }
 
     return (
-      <div className="w3-purple w3-hover-shadow w3-padding-64 w3-center w3-margin"
+      <div className="w3-card-4 w3-purple w3-margin"
         style={ cardStyles }>
-        { this.props.title }
+        <div className="w3-container w3-center">
+          <h3>
+            { this.props.title }
+          </h3>
+        </div>
       </div>
     );
   }
