@@ -2,11 +2,22 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 
 class DatasetModal extends Component {
-  render() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      newDatasetName: ''
+    }
+  }
 
+  updateDatasetName = (event) => {
+    this.setState({ newDatasetName : event.target.value })
+  }
+
+  render() {
     var datasetModalStyles = {
       display: this.props.isOpen ? "block" : "none"
     }
+    var testVar = "HI";
 
     return (
       <div style={ datasetModalStyles }>
@@ -24,10 +35,12 @@ class DatasetModal extends Component {
                 <input className="w3-input w3-border w3-margin-bottom"
                          type="text"
                          placeholder="What would you like to call this dataset?"
+                         value={ this.state.newDatasetName }
+                         onChange= { this.updateDatasetName }
                          required>
                 </input>
                 <button className="w3-button w3-block w3-purple w3-section w3-padding"
-                          type="submit">Add
+                        onClick={ this.props.addDataset(this.state.newDatasetName) }>Add
                 </button>
               </div>
 

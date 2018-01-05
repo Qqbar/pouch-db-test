@@ -10,14 +10,14 @@ class DatasetMenu extends Component {
     this.state = {
       isSidebarOpen: true,
       isModalOpen: false,
-      datasetList: [1,2,3],
+      datasetList: [],
       currentDataset: '',
-      newDataset: '',
       warningMessage: '',
       showWarningMessage: false
     }
   }
 
+// UI OPEN CLOSE
   closeSidebar = () => {
     this.setState({ isSidebarOpen : false });
   }
@@ -34,19 +34,13 @@ class DatasetMenu extends Component {
     this.setState({ isModalOpen : true });
   }
 
-  setDatasetList = () => {
+  initDatasetList = () => {
     console.log("Retreive Dataset list from pouchDB");
     console.log("Set datasetList in state");
   }
+// END UI OPEN CLOSE
 
-  setCurrentDataset = (currentDataset) => {
-    this.setState({ currentDataset });
-  }
-
-  onAddButtonClick = () => {
-    console.log("Clicked Dataset Add")
-  }
-
+// WARNINGS
   setWarningMessage = (warningMessage) => {
     this.setState({ warningMessage });
   }
@@ -58,6 +52,19 @@ class DatasetMenu extends Component {
   hideWarningMessage = () => {
     console.log("Set showWarning to false");
   }
+// WARNINGS
+
+// DATASET
+  setCurrentDataset = (currentDataset) => {
+    this.setState({ currentDataset });
+  }
+
+  addToDatasetList = (datasetTitle) => (event) => {
+    if (!(this.state.datasetList.includes(datasetTitle))) {
+      this.setState({ datasetList: this.state.datasetList.concat([datasetTitle]) });
+    }
+  }
+// END DATASET
 
   render() {
     var sideBarStyles = {
@@ -96,7 +103,8 @@ class DatasetMenu extends Component {
         </div>
 
         <DatasetModal isOpen={ this.state.isModalOpen }
-                      closeModal={ this.closeDatasetModal } />
+                      closeModal={ this.closeDatasetModal }
+                      addDataset={ this.addToDatasetList }/>
 
       </div>
     );
