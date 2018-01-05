@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 
+import DatasetList from './DatasetList.jsx'
+
 class DatasetMenu extends Component {
   constructor(props){
     super(props);
 
     this.state = {
-      isOpen: false,
-      datasetList: [],
+      isOpen: true,
+      datasetList: [1,2,3],
       currentDataset: '',
       newDataset: '',
       warningMessage: '',
@@ -31,6 +33,10 @@ class DatasetMenu extends Component {
     this.setState({ currentDataset });
   }
 
+  onAddButtonClick = () => {
+    console.log("Clicked Dataset Add")
+  }
+
   setWarningMessage = (warningMessage) => {
     this.setState({ warningMessage });
   }
@@ -48,6 +54,10 @@ class DatasetMenu extends Component {
       display: this.state.isOpen ? "block" : "none"
     }
 
+    var containerStyles = {
+      height: "50px"
+    }
+
     return (
       <div>
         <div className="w3-sidebar w3-bar-block w3-dark-grey w3-animate-left"
@@ -56,6 +66,17 @@ class DatasetMenu extends Component {
           <button className="w3-bar-item w3-button w3-large"
                   onClick={ this.closeSidebar }>Close &times;
           </button>
+
+        <DatasetList datasets={ this.state.datasetList } />
+
+        <div className="w3-display-container"
+             style={ containerStyles } >
+          <div className="w3-display-bottomright w3-margin-right">
+            <button className="w3-button w3-black"
+                    onClick={ this.onAddButtonClick }>+</button>
+          </div>
+        </div>
+
         </div>
 
         <div>
@@ -63,6 +84,7 @@ class DatasetMenu extends Component {
                   onClick={ this.openSidebar }>&#9776;
           </button>
         </div>
+
       </div>
     );
   }
