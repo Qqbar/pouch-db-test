@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PouchDB from 'pouchdb';
+import { listAllDBs, getAllPouchDBs, createPouchDB } from '../utils/pouchUtils.js'
 
 import DatasetList from './DatasetList.jsx'
 import DatasetModal from './DatasetModal.jsx'
@@ -11,11 +13,40 @@ class DatasetMenu extends Component {
       isSidebarOpen: true,
       isModalOpen: false,
       datasetList: [],
-      currentDataset: '',
       warningMessage: '',
       showWarningMessage: false
     }
   }
+
+  componentDidMount() {
+    listAllDBs();
+    this.initDBList();
+  }
+
+// DB
+  initDBList = () => {
+    // Get DB array from storage
+    getAllPouchDBs()
+    .then((dbs) => {
+      this.setState({ datasetList: dbs})
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
+  addDB = (datasetTitle) => {
+    if (!(this.state.datasetList.includes(datasetTitle))) {
+      createPouchDB(datasetTitle)
+      .then((response) => {
+        console.log(response);
+        this.initDBList();
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+  }
+// DB
 
 // UI OPEN CLOSE
   closeSidebar = () => {
@@ -58,12 +89,6 @@ class DatasetMenu extends Component {
   setCurrentDataset = (currentDataset) => {
     this.setState({ currentDataset });
   }
-
-  addToDatasetList = (datasetTitle) => (event) => {
-    if (!(this.state.datasetList.includes(datasetTitle))) {
-      this.setState({ datasetList: this.state.datasetList.concat([datasetTitle]) });
-    }
-  }
 // END DATASET
 
   render() {
@@ -104,7 +129,7 @@ class DatasetMenu extends Component {
 
         <DatasetModal isOpen={ this.state.isModalOpen }
                       closeModal={ this.closeDatasetModal }
-                      addDataset={ this.addToDatasetList }/>
+                      addDB ={ this.addDB }/>
 
       </div>
     );
